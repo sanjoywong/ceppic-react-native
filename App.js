@@ -15,31 +15,36 @@ import LienInput from "./components/lienInput";
 import LienItem from "./components/LienItem";
 const image = { uri: "https://reactjs.org/logo-og.png" };
 export default function App() {
-  
   //const [lienTexteSaisie, setLientexteSaisie] = useState("");
   const [listeLiens, setListeLiens] = useState([]);
 
   function ajoutLienHandler(lienTexteSaisie) {
-   // console.log(lienTexteSaisie);
+    // console.log(lienTexteSaisie);
     setListeLiens((currentListeLiens) => [
       ...listeLiens,
       { text: lienTexteSaisie, id: Math.random().toString() },
     ]);
-   // setLientexteSaisie("");
+    // setLientexteSaisie("");
   }
 
-  const [TexteSaisie,setTexteSaisie] = useState("");
-  const [ListeTexts,setListeTexts] = useState([]);
+  function supprimerItemHandler(id) {
+    setListeLiens((currentListeLiens)=>{
+      return currentListeLiens.filter((lien)=>lien.id !== id);
+    });
+  }
+
+  const [TexteSaisie, setTexteSaisie] = useState("");
+  const [ListeTexts, setListeTexts] = useState([]);
 
   function ajoutTextHandler() {
-    setListeTexts([...ListeTexts,TexteSaisie]);
+    setListeTexts([...ListeTexts, TexteSaisie]);
     //console.log(ListeTexts);
     setTexteSaisie("");
   }
 
   function TextInputHandler(textSaisie) {
     setTexteSaisie(textSaisie);
-   // console.log(TexteSaisie);
+    // console.log(TexteSaisie);
   }
 
   return (
@@ -51,7 +56,7 @@ export default function App() {
           uri: "https://reactnative.dev/img/tiny_logo.png",
         }}
       />
-      <LienInput ajoutLien={ajoutLienHandler}/>
+      <LienInput ajoutLien={ajoutLienHandler} />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="input Nouveau text ..."
@@ -71,7 +76,9 @@ export default function App() {
           }}
           // renderItem={({item})=>(<Text>{item}</Text>)}/>
           renderItem={(itemData) => {
-            return <LienItem text={itemData.item.text} />;
+            return <LienItem text={itemData.item.text} 
+            id={itemData.item.id}
+            onSupprimerItem={supprimerItemHandler}/>;
           }}
         />
         {/* {listeLiens.map((lien) => (
@@ -98,14 +105,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
- 
+
   lienContainer: {
     flex: 3,
-    height :10,
+    height: 10,
     /*  height: 80,
     borderColor: "green",
     borderWidth: 2, */
-    padding:1,
+    padding: 1,
   },
-  
 });
