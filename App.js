@@ -1,14 +1,27 @@
 //import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import reactDom from "react-dom";
-import { StyleSheet, Text, View, TextInput, Button,ImageBackground,Image,FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ImageBackground,
+  Image,
+  FlatList,
+} from "react-native";
+import LienItem from "./components/LienItem";
 const image = { uri: "https://reactjs.org/logo-og.png" };
 export default function App() {
   const [lienTexteSaisie, setLientexteSaisie] = useState("");
   const [listeLiens, setListeLiens] = useState([]);
   function ajoutLienHandler() {
     //console.log(lienTexteSaisie);
-    setListeLiens([...listeLiens, lienTexteSaisie]);
+    setListeLiens((currentListeLines) => [
+      ...listeLiens,
+      { text: lienTexteSaisie, id: Math.random().toString() },
+    ]);
     setLientexteSaisie("");
   }
 
@@ -17,14 +30,13 @@ export default function App() {
     setLientexteSaisie(textSaisie);
   }
 
-
   return (
     <View style={styles.container}>
       {/* <ImageBackground source={image} resizeMode="cover" style={styles.image}>  </ImageBackground> */}
       <Image
         style={styles.tinyLogo}
         source={{
-          uri: 'https://reactnative.dev/img/tiny_logo.png',
+          uri: "https://reactnative.dev/img/tiny_logo.png",
         }}
       />
       <View style={styles.inputContainer}>
@@ -39,13 +51,19 @@ export default function App() {
       <View style={styles.lienContainer}>
         <Text> Listed des liens ...</Text>
         <FlatList
-        data={listeLiens}
-        renderItem={({item})=>(<Text>{item}</Text>)}/>
+          data={listeLiens}
+          keyExtractor={(item,index)=>{return item.id}}
+          // renderItem={({item})=>(<Text>{item}</Text>)}/>
+          renderItem={(itemData) => {
+            return(
+              <LienItem text={itemData.item.text}/>
+            );
+          }}
+        />
         {/* {listeLiens.map((lien) => (
           <Text key={lien}>{lien}</Text>
         ))} */}
       </View>
-     
     </View>
   );
 }
@@ -56,7 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop :50 
+    paddingTop: 50,
   },
   StyleTexte: {
     color: "red",
@@ -67,7 +85,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   inputLien: {
     borderColor: "grey",
@@ -81,9 +99,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   lienContainer: {
-    //flex :3
-    height: 80,
+    flex :3
+   /*  height: 80,
     borderColor: "green",
-    borderWidth: 2,
+    borderWidth: 2, */
+  },
+  lienItem: {
+    backgroundColor: "#edcedc",
+    marginTop: 20,
+    padding: 8,
+    color: "#ggg",
   },
 });
