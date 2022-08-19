@@ -11,23 +11,35 @@ import {
   Image,
   FlatList,
 } from "react-native";
+import LienInput from "./components/lienInput";
 import LienItem from "./components/LienItem";
 const image = { uri: "https://reactjs.org/logo-og.png" };
 export default function App() {
-  const [lienTexteSaisie, setLientexteSaisie] = useState("");
+  
+  //const [lienTexteSaisie, setLientexteSaisie] = useState("");
   const [listeLiens, setListeLiens] = useState([]);
-  function ajoutLienHandler() {
-    //console.log(lienTexteSaisie);
-    setListeLiens((currentListeLines) => [
+
+  function ajoutLienHandler(lienTexteSaisie) {
+   // console.log(lienTexteSaisie);
+    setListeLiens((currentListeLiens) => [
       ...listeLiens,
       { text: lienTexteSaisie, id: Math.random().toString() },
     ]);
-    setLientexteSaisie("");
+   // setLientexteSaisie("");
   }
 
-  function lienInputHandler(textSaisie) {
-    // console.log(textSaisie);
-    setLientexteSaisie(textSaisie);
+  const [TexteSaisie,setTexteSaisie] = useState("");
+  const [ListeTexts,setListeTexts] = useState([]);
+
+  function ajoutTextHandler() {
+    setListeTexts([...ListeTexts,TexteSaisie]);
+    //console.log(ListeTexts);
+    setTexteSaisie("");
+  }
+
+  function TextInputHandler(textSaisie) {
+    setTexteSaisie(textSaisie);
+   // console.log(TexteSaisie);
   }
 
   return (
@@ -39,25 +51,27 @@ export default function App() {
           uri: "https://reactnative.dev/img/tiny_logo.png",
         }}
       />
+      <LienInput ajoutLien={ajoutLienHandler}/>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Nouveau lien ..."
+          placeholder="input Nouveau text ..."
           style={styles.inputLien}
-          onChangeText={lienInputHandler}
-          value={lienTexteSaisie}
+          onChangeText={TextInputHandler}
+          value={TexteSaisie}
         />
-        <Button title="Ajoute un lien" onPress={ajoutLienHandler} />
+        <Button title="Ajoute des texts" onPress={ajoutTextHandler} />
       </View>
+
       <View style={styles.lienContainer}>
         <Text> Listed des liens ...</Text>
         <FlatList
           data={listeLiens}
-          keyExtractor={(item,index)=>{return item.id}}
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
           // renderItem={({item})=>(<Text>{item}</Text>)}/>
           renderItem={(itemData) => {
-            return(
-              <LienItem text={itemData.item.text}/>
-            );
+            return <LienItem text={itemData.item.text} />;
           }}
         />
         {/* {listeLiens.map((lien) => (
@@ -99,8 +113,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   lienContainer: {
-    flex :3
-   /*  height: 80,
+    flex: 3,
+    /*  height: 80,
     borderColor: "green",
     borderWidth: 2, */
   },
