@@ -88,10 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 50,
-  },
-  StyleTexte: {
-    color: "red",
+    paddingTop: 20,
   },
   tinyLogo: {
     width: 50,
@@ -101,27 +98,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  inputLien: {
-    borderColor: "grey",
-    borderWidth: 1,
-    padding: 8,
-    width: "70%",
-  },
-  inputContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-  },
+ 
   lienContainer: {
     flex: 3,
+    height :10,
     /*  height: 80,
     borderColor: "green",
     borderWidth: 2, */
+    padding:1,
   },
-  lienItem: {
-    backgroundColor: "#edcedc",
-    marginTop: 20,
-    padding: 8,
-    color: "#ggg",
-  },
+  
 });
